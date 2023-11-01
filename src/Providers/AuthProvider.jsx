@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import app from "../firebase/firebase.config";
+import Swal from "sweetalert2";
 
 
 export const AuthContext = createContext(); 
@@ -15,6 +16,11 @@ const AuthProvider = ({children}) => {
         return createUserWithEmailAndPassword(auth, email, password)
     }
 
+    const logOut = () => {
+        setLoading(true)
+        return signOut(auth); 
+    }
+
     const signIn = (email, password) => {
         setLoading(true)
         return signInWithEmailAndPassword(auth, email, password)
@@ -23,6 +29,9 @@ const AuthProvider = ({children}) => {
     useEffect( () => {
         const unSubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser)
+            // if(!currentUser){
+            //     Swal.fire('Logged out!')
+            // }
             setLoading(false)
         }); 
         return () => {
@@ -33,6 +42,7 @@ const AuthProvider = ({children}) => {
 
     const authData = {
         user, 
+        logOut,
         loading, 
         createUser, 
         signIn

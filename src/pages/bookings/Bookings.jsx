@@ -10,7 +10,7 @@ const Bookings = () => {
   const url = `http://localhost:5000/bookings?email=${user?.email}`;
 
   useEffect(() => {
-    fetch(url)
+    fetch(url, { credentials: "include" })
       .then((res) => res.json())
       .then((data) => {
         setBookings(data);
@@ -59,24 +59,26 @@ const Bookings = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         fetch(`http://localhost:5000/bookings/${id}`, {
-            method: 'PATCH', 
-            headers: {
-                'content-type': 'application/json'
-            }, 
-            body: JSON.stringify({status: 'confirm'})
+          method: "PATCH",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({ status: "confirm" }),
         })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
-            if(data.modifiedCount > 0){
-                const remaining = bookings.filter(booking => booking._id !== id); 
-                const updated = bookings.find(booking => booking._id === id); 
-                updated.status = 'confirm'
-                const newBookings = [updated, ...remaining]; 
-                setBookings(newBookings)
-                Swal.fire("Updated!", "Your file has been Updated.", "success");
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            if (data.modifiedCount > 0) {
+              const remaining = bookings.filter(
+                (booking) => booking._id !== id
+              );
+              const updated = bookings.find((booking) => booking._id === id);
+              updated.status = "confirm";
+              const newBookings = [updated, ...remaining];
+              setBookings(newBookings);
+              Swal.fire("Updated!", "Your file has been Updated.", "success");
             }
-        })
+          });
       }
     });
   };

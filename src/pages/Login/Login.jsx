@@ -1,11 +1,13 @@
-import { useContext } from "react";
+// import { useContext } from "react";
+// import { AuthContext } from "../../Providers/AuthProvider";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../Providers/AuthProvider";
 import Swal from "sweetalert2";
 import axios from "axios";
+import useAuth from "../../hooks/useAuth";
 
 const Login = () => {
-  const { signIn } = useContext(AuthContext);
+  const {signIn} = useAuth();
+  // const { signIn } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
 

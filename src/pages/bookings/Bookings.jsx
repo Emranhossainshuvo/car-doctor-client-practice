@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
 import BookingRow from "./BookingRow";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const Bookings = () => {
   const { user } = useContext(AuthContext);
@@ -10,6 +11,10 @@ const Bookings = () => {
   const url = `http://localhost:5000/bookings?email=${user?.email}`;
 
   useEffect(() => {
+    // axios.post(url, { withCredentials: true})
+    // .then(data => {
+    //   setBookings(data.data)
+    // })
     fetch(url, { credentials: "include" })
       .then((res) => res.json())
       .then((data) => {

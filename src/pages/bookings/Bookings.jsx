@@ -3,24 +3,27 @@ import { AuthContext } from "../../Providers/AuthProvider";
 import BookingRow from "./BookingRow";
 import Swal from "sweetalert2";
 import axios from "axios";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Bookings = () => {
   const { user } = useContext(AuthContext);
   const [bookings, setBookings] = useState([]);
+  const axiosSecure = useAxiosSecure(); 
 
-  const url = `http://localhost:5000/bookings?email=${user?.email}`;
+  // const url = `http://localhost:5000/bookings?email=${user?.email}`;
+  const url = `/bookings?email=${user?.email}`;
 
   useEffect(() => {
-    // axios.post(url, { withCredentials: true})
-    // .then(data => {
-    //   setBookings(data.data)
-    // })
-    fetch(url, { credentials: "include" })
-      .then((res) => res.json())
-      .then((data) => {
-        setBookings(data);
-      });
-  }, [url]);
+    // fetch(url, { credentials: "include" })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     setBookings(data);
+    //   });
+
+    axiosSecure.get(url)
+    .then(res => setBookings(res.data))
+
+  }, [url, axiosSecure]);
 
   const handleDelete = (id) => {
     Swal.fire({

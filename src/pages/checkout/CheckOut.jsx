@@ -20,7 +20,7 @@ const CheckOut = () => {
     const textArea = form.textArea.value; 
     const booking = {email, img,  name, amount, date, textArea, service_id: _id, service_title: title, price}
     console.log(booking)
-    fetch('http://localhost:5000/bookings', {
+    fetch('https://car-doctor-server-practice-ten.vercel.app/bookings', {
       method: "POST", 
       headers: {
         'content-type': 'application/json'
